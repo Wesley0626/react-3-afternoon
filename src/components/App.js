@@ -13,12 +13,14 @@ class App extends Component {
     super();
 
     this.state = {
-      posts: []
+      posts: [],
+      search: ''
     };
 
     this.updatePost = this.updatePost.bind( this );
     this.deletePost = this.deletePost.bind( this );
     this.createPost = this.createPost.bind( this );
+    this.searchPost = this.searchPost.bind(this)
   }
   
   componentDidMount() {
@@ -46,14 +48,18 @@ class App extends Component {
     })
   }
 
-  // searchPost()
+  searchPost(text){
+    axios.get(`https://practiceapi.devmountain.com/api/posts/filter?text=${text}`)
+    .then(res => {this.setState({posts: res.data})
+      })
+  }
 
   render() {
     const { posts } = this.state;
 
     return (
       <div className="App__parent">
-        <Header />
+        <Header searchPost={this.searchPost} />
 
         <section className="App__content">
 
